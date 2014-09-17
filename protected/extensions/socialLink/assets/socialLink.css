@@ -1,0 +1,67 @@
+/* Create square icons, white logo on colored background */
+
+#social-bar {
+	position: fixed;
+	z-index:999;
+}
+.left-align {
+	left: 0;
+}
+.right-align {
+	right: 0;
+}
+#social-bar .social-media-icon a {
+	display: block;
+	text-decoration: none;
+	cursor: pointer;
+	font-size: 21px;
+	height: 40px;
+	width: 35px;
+	text-align: center;
+	line-height: 42px;
+	color: #fff;
+	margin: 0;
+	clear: both;
+}
+#social-bar .left-align a {
+	float: left;
+}
+#social-bar .right-align a {
+	float: right;
+}
+#social-bar .social-media-icon .icon-facebook {
+	background: #3B5998;
+}
+#social-bar .social-media-icon .icon-twitter {
+	background: #00ACED;
+}
+#social-bar .social-media-icon .icon-google-plus {
+	background: #E14107;
+}
+#social-bar .social-media-icon .icon-linkedin {
+	background: #4875B4;
+}
+#social-bar .social-media-icon .icon-instagram {
+	background: #4E433C;
+}
+#social-bar .social-media-icon .icon-foursquare {
+	background: #8FD400;
+}
+#social-bar .social-media-icon .icon-youtube {
+	background: #FF3333;
+}
+#social-bar .social-media-icon .icon-rss {
+	background: #e5842f;
+}
+
+/* Animate mouse hover */
+#social-bar .social-media-icon a {
+	-webkit-transition: background 1s;
+	-moz-transition: background 1s;
+	-o-transition: background 1s;
+	-ms-transition: background 1s;
+	transition: background 1s;
+}
+#social-bar .social-media-icon a:hover {
+	background: #333333;
+}
