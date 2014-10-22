@@ -52,10 +52,17 @@ class ProjectController extends Controller
 	 * @param integer $id the ID of the model to be displayed
 	 */
 	public function actionView($id)
-	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
+	{                
+                if(yii::app()->user->getProjectAcces($id) || $this->allowOnlySuperAdmin())
+                {
+                    $this->render('view',array(
+                            'model'=>$this->loadModel($id),
+                    ));
+                }
+                else
+                {
+                    throw new CHttpException(403,'Damn You!, you are not authorized to perform this action.');
+                }
 	}
 
 	/**
@@ -124,7 +131,18 @@ class ProjectController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Project');
+                 /*
+                 * get project data
+                 * set condition to filter projects 
+                 *(keep the privileges form superadmin in mind.) 
+                 */ 
+                if($this->allowOnlySuperAdmin())
+                {
+                    $dataProvider=new CActiveDataProvider('Project');
+                }else{
+                    $dataProvider = new CActiveDataProvider('Project', array('data'=>yii::app()->user->getProjects())); 
+                }
+                
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
@@ -174,7 +192,7 @@ class ProjectController extends Controller
 	}
         
         /**
-        * @return array counties names indexed by country
+        * @return listdata Clients
         */
         public function getClientOptions()
         {
@@ -188,5 +206,31 @@ class ProjectController extends Controller
                 }
                 
                 return CHtml::listData($allClients, 'Client_ID', 'fullName');
+        }
+        
+         /*
+        * Check if the selected user is privileged by the acceslevels of a logged user
+        * @return boolean whether the selected user is in the admin group
+        */
+        public function isSelectedUserPrivileged(){
+            
+            
+            if($this->allowOnlySuperAdmin())
+            {
+                 $user = User::model()->findByPk( $userId ); 
+            }
+            else
+            {
+                $condition = "Client_ID = :clientid";
+                $params    = array( ':clientid' => yii::app()->user->getClientID());
+                $user = User::model()->findByPk( $userId, $condition, $params );  
+            }
+            
+            if(isset($user))
+            {
+                return key_exists($user->Level, yii::app()->user->getAccessLevels()); 
+            }
+            
+            return false;
         }
 }

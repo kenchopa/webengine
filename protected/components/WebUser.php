@@ -133,6 +133,15 @@ class WebUser extends CWebUser
         return ($this->getUserModel()->Projects);
     }
     
+    public function getProjectAcces($id){
+        foreach ($this->getProjects() as $project){
+            if($project->Project_ID === $id){
+                return true;
+            }
+        }
+        return false;
+    }
+    
     /* get acceslevels by type 
      * type null => array with key and value string notation
      * type string => accesslevels in string notation for criteria   
